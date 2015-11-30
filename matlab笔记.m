@@ -315,7 +315,8 @@ get(gca,'xlim');是获取最大最小刻度的
 如果需要获取所有在坐标轴上显示的刻度，需要使用
 get(gca,'ytick')
 set(gca,'xticklabel',strsplit(num2str(10:14),' '));%{'10'    '11'    '12'    '13'    '14'}
-或者下面这种（适用低版本Matlab）
+
+%或者下面这种（适用低版本Matlab）
 xlabel_start=1;
 xlabel_end=31;
 xlabel_len=xlabel_end-xlabel_start+1;
@@ -325,16 +326,18 @@ end
 set(h(k),'xticklabel', xtlabel);
 
 -----------
-求矩阵S中的最大值： max(max(S))
-暂停0.5秒 pause（0.5）
+%求矩阵S中的最大值： 
+max(max(S))
+%暂停0.5秒
+pause（0.5）
 ---------------------------------------
-指定位置显示图形
+%指定位置显示图形
 plot(30,30,'r.','markersize',5)
 
 axis xy就是普通的坐标格式。
 axis ij就是image系列的坐标格式
 
-矩阵翻转
+%矩阵翻转
 flipud(a) 矩阵上下翻转 
 fliplr(a) 矩阵左右翻转
 rot90(a)矩阵逆时针旋转90度
