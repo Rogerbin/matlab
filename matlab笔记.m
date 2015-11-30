@@ -12,7 +12,9 @@ tic;w=searchfolder('H:\数据备份SAC20hz','.sac');toc
 fhandle=@（arglist）express
 （1）express是一个matlab变量表达式，比如：x+x.^2，sin（x）等
 （2）argilst是参数列表；
-（3）符号@是matlab创建函数句柄的操作符，表示创建有输入参数列表arglist和表达式express确定的函数句柄，并把这个函数句柄返回给变量fhandle，这样，以后就可以通过fhandle来调用定义好的函数了。
+（3）符号@是matlab创建函数句柄的操作符，表示创建有输入参数列表arglist和
+    表达式express确定的函数句柄，并把这个函数句柄返回给变量fhandle，
+     这样，以后就可以通过fhandle来调用定义好的函数了。
 f1=@(x)x*2+1;
 f1(2)=5;
 
@@ -138,7 +140,8 @@ set(gcf,'outerposition', get(0,'screensize')+[-6 40 100 -40]);
  fig=getframe(gcf);
 imwrite(fig.cdata,['.\',fdname,'\','test.png']);
 
-Figure窗口中的图形导出成jpg格式的图片时，所有的字号都会变大，而且坐标刻度值在有些情况下会改变。我想得到与屏幕上显示完全相同的jpg图形，但又不想用尺寸比较大的bmp.
+Figure窗口中的图形导出成jpg格式的图片时，所有的字号都会变大，而且坐标刻度值在有些情况下会改变。
+我想得到与屏幕上显示完全相同的jpg图形，但又不想用尺寸比较大的bmp.
 另：用print生成24位色的bmp时字体也会变大，用saveas生成的bmp不会变大，但只能保存成256色，会丢失颜色。
 下面详细说明一下我的要求与解决方法。
 由于所绘制的图形用到了colorbar，所以颜色比较多。
@@ -162,7 +165,9 @@ jpg可以为24位色，但会造成字体显示或坐标显示与屏幕显示不
 
 转化问题：
       (1) jpg格式是有损压缩，在转化后图像质量有所损失。
-      (2) gif格式是无损压缩，但只支持256色。用一般的格式转换工具将24位色bmp转换为gif格式时会出现色彩失真，该图形中虽colorbar，但所使 用到的颜色种类没有超过256种，所以用Acdsee等专业的转换工具转换后其效果与bmp基本完全一样，效果比jpg好的多，而且文件也比jpg的要 小。
+      (2) gif格式是无损压缩，但只支持256色。用一般的格式转换工具将24位色bmp转换为gif格式时会出现色彩失真，
+该图形中虽colorbar，但所使 用到的颜色种类没有超过256种，所以用Acdsee等专业的转换工具转换后其效果与bmp基本
+完全一样，效果比jpg好的多，而且文件也比jpg的要 小。
 
 批量处理问题：
       (1) Edit -> Copy Figure ，经研究得出Copy Figure菜单的回调函数是
@@ -375,7 +380,7 @@ fclose(fid);    % 关闭文件
  disp(['d',num2str(i),'=get(handles.checkbox',num2str(i+3),',''value'');'])
 end
 
-
+------------------------
 help wfilters
 wavemngr('read',1)
 
