@@ -3,6 +3,52 @@ mbuild -setup
 mex -setup
 mcc -B sgl sss.m
 
+%matlab内容保存在word中
+%Create the word application
+
+%and make it visible
+
+word = actxserver('Word.Application');
+word.Visible = 1;
+%Add a new document and get the current selection
+
+document = word.Documents.Add;
+selection = word.Selection;
+%add text and paragraphs
+
+selection.TypeText('Hello world. ');
+selection.TypeText('My name is Professor Kitchin');
+selection.TypeParagraph;
+selection.TypeText('How are you today?');
+selection.TypeParagraph;
+%Setting a Header
+
+selection.TypeText('Big Finale');
+selection.Style='Heading 1';
+selection.TypeParagraph;
+%Modifying Header properties
+
+H1 = document.Styles.Item('Heading 1')
+H1.Font.Name = 'Garamond';
+H1.Font.Size = 20;
+H1.Font.Bold = 1;
+H1.Font.TextColor.RGB=60000; % some ugly color green
+
+selection.TypeParagraph
+selection.TypeText('That is all for today!')
+ 
+%H1 =
+ 
+%	Interface.0002092C_0000_0000_C000_000000000046
+
+%Now we save the document
+
+document.SaveAs2([pwd '/test.docx']);
+word.Quit();
+
+% 结束
+
+
 测试运行时间
 tic;w=searchfolder('H:\数据备份SAC20hz','.sac');toc
 
