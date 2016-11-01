@@ -1,8 +1,65 @@
 # matlab
 some code used in my study of data analysis
 
+Matlab2word
+```matlab
+%%  word 处理部分
+wordflag = 1;
+if wordflag
+    %激活word 
+    try    
+        word = actxGetRunningServer('Word.Application');  %启动word
+    catch    
+        word = actxserver('Word.Application'); 
+    end;
+    word.Visible = 1;%使word可见
+    document = word.Documents.Add;
+    document.SaveAs([pwd '\test3.docx']);
+end
+% ----------------------------------------
+% 添加文件夹目录
+addpath(genpath('Platform'));% add by gbin
+for p=1:23%:23
+    if wordflag
+        mystring = myfunc(p,document);
+        mystring = strcat(num2str(p),'. ',mystring);
+        %获取所有打开的figure句柄
+        hfig=get(0,'Children');
+        Numofstart = word.Selection.Start;% 当前行开头位置
+        word.Selection.TypeText(mystring);% 打印字符
+        Numofend = word.Selection.Start;% 当前行末尾位置
+        word.Selection.SetRange(Numofstart,Numofend);%选择当前行
+        % 设置大纲级别1，,2，，正文文本是wdOutlineLevelBodyText  
+        word.Selection.ParagraphFormat.OutlineLevel = 'wdOutlineLevel1';     
+        word.Selection.Font.Color = 'wdColorRed';% 文字颜色
+        word.Selection.Font.Size = 16;%文字大小
+        
+        word.Selection.MoveDown;
+        word.Selection.TypeParagraph;% 换行
+        word.Selection.ClearFormatting;% 清格式
+        for ff=2:3
+            figure(hfig(ff));
+            uimenufcn(hfig(ff),'EditCopyFigure');
+            invoke(word.Selection,'Paste');
+            word.Selection.TypeParagraph;
+            document.Save;
+        end
+        % ´存入word
+    else
+        myfunc(p);
+    end
+end
+ 
+if wordflag
+% quit word
+word.Quit();
+end
+% 移除文件夹目录
+rmpath(genpath('Platform'));% add by gbin
+```
+
 ---
-###matlab.cn login code
+###python code  for matlab.cn login 
 ```python
 import urllib,requests,cookielib,urllib2
 from bs4 import BeautifulSoup as sp
