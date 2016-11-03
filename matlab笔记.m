@@ -12,7 +12,77 @@ h = get(0,'Children')
   figure(h(1)); uimenufcn(gcf,'EditCopyFigure');
   %接着可以调用word的粘贴命令
  invoke(word.Selection, ‘Paste')
+ %————————————————————————————————————————
+ % --------------------——————————————————--读excel--------------------
+function excelreading
+%% 读excel
+try
+    x = actxGetRunningServer('excel.Application');  %启动excel引擎
+catch e
+    x= actxserver('excel.application');
+end;
+x.Visible=1; 
+for i =1
+% open xlsx file,or txt file 
+x.Workbooks.Open(filename);
+% select range ,A2:B5 for block choose
+Select(Range(x,sprintf('%s','GA2:GA1262')));
+datrange = get(x,'Selection');
+% get data from range selected,return cell format 
+dd = datrange.Value;
+% 
+data1 = cell2mat(dd);
+
+Select(Range(x,sprintf('%s','AHU2:AHU1262')));
+datrange = get(x,'Selection');
+dd = datrange.Value;
+data2 = cell2mat(dd);
+% close book but not excel
+x.ActiveWindow.Close;
+end
+x.Quit;
+clear x;
+
+% -----------------————————————————-----写-excel---------------------
+function  excelwriting
+%% 写excel
+savename = 'test.xlsx';
+fileName = fullfile(pwd,savename);
+try
+    x = actxGetRunningServer('excel.Application');  %启动excel引擎
+catch e
+    x= actxserver('excel.application');
+end;
+x.Visible=1; 
+x.Workbooks.Add;% workbooks 包含多个sheets
+x.Workbooks.Item(1).SaveAs(fileName);
+%激活sheet1
+Activate(get(x.Sheets,'item','Sheet1'));%Activate(x.Sheets.Item('Sheet2'))
+% 设置要写入的范围并选择
+myRange = 'A3:A102';
+Select(Range(x,myRange));%
+
+% 在指定区域写入数值
+set(x.Selection,'Value',data);
+%选择/激活sheet的2种方法
+x.Sheets.Item('Sheet2').Select;
+x.Sheets(1).Select;%
+%选择range
+%  x.ActiveWindow.ActiveSheet.Range('B1:B11').Select
+% x.Sheets.Item('Sheet1').Range('A3:A44').Select;
+x.Range('A2:A34').Select;% 选择当前激活sheet的范围
+figure;plot(rand(100,1));
+uimenufcn(gcf,'EditCopyFigure');%复制图片放入粘贴板;
+x.ActiveWindow.Selection.PasteSpecial;% 粘贴入excel（图片或多行、列数据）
+%  x.Selection.PasteSpecial
+x.ActiveWorkbook.Save;% x.ActiveWorkbook.SaveAs('test2.xlsx')
+% 关闭workbook
+x.ActiveWorkbook.Close;
+% 关闭excel
+x.Quit;
+clear x;
  
+ %-------------------- - --------------------——————————————————————————
  %找到文档d最后
  % Find end of document and make it the insertion point:
 end_of_doc = get(word.activedocument.content,'end');
@@ -554,16 +624,6 @@ wavebox={'haar', 'dmey',...
     'db22','db23','db24','db25','db26','db27','db28','db29',...
     'db30','db31','db32','db33','db34','db35','db36','db37','db38','db39',...
     'db40','db41','db42','db43','db44','db45',...
-   'sym2','sym3','sym4','sym5','sym6','sym7','sym8','sym9','sym10',...
-    'sym11','sym12','sym13','sym14','sym15','sym16','sym17','sym18','sym19','sym20',
-    'sym21','sym22','sym23','sym24','sym25','sym26','sym27','sym28','sym29',...
-    'sym30','sym31','sym32','sym33','sym34','sym35','sym36','sym37','sym38','sym39',...
-    'sym40','sym41','sym42','sym43','sym44','sym45',...
-    'coif1','coif2','coif3','coif4','coif5',...
-    'bior1.1','bior1.3','bior1.5','bior2.2','bior2.4','bior2.6','bior2.8',...
-    'bior3.1','bior3.3','bior3.5','bior3.7','bior3.9','bior4.4','bior5.5','bior6.8',...
-    'rbio1.1','rbio1.3','rbio1.5','rbio2.2','rbio2.4','rbio2.6','rbio2.8','rbio3.1',...
-    'rbio3.3','rbio3.5','rbio3.7','rbio3.9','rbio4.4','rbio5.5','rbio6.8',...
     };
 
 for i=1:length(wavebox)
@@ -581,23 +641,6 @@ db7
 db8
 db9
 db10
-sym2
-sym3
-sym4
-sym5
-sym6
-sym7
-sym8
-coif1
-coif2
-coif3
-coif4
-coif5
-bior1.1
-bior1.3
-bior1.5
-bior2.2
-bior2.4
 bior2.6
 bior2.8
 bior3.1
@@ -605,58 +648,6 @@ bior3.3
 bior3.5
 bior3.7
 bior3.9
-bior4.4
-bior5.5
-bior6.8
-rbio1.1
-rbio1.3
-rbio1.5
-rbio2.2
-rbio2.4
-rbio2.6
-rbio2.8
-rbio3.1
-rbio3.3
-rbio3.5
-rbio3.7
-rbio3.9
-rbio4.4
-rbio5.5
-rbio6.8
-meyr
-dmey
-gaus1
-gaus2
-gaus3
-gaus4
-gaus5
-gaus6
-gaus7
-gaus8
-mexh
-morl
-cgau1
-cgau2
-cgau3
-cgau4
-cgau5
-shan1-1.5
-shan1-1
-shan1-0.5
-shan1-0.1
-shan2-3
-fbsp1-1-1.5
-fbsp1-1-1
-fbsp1-1-0.5
-fbsp2-1-1
-fbsp2-1-0.5
-fbsp2-1-0.1
-cmor1-1.5
-cmor1-1
-cmor1-0.5
-cmor1-0.1
-
-
 
 function WriteToWordFromMatlab
 % -------------------------------------------------------------------
