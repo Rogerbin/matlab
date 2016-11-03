@@ -3,6 +3,10 @@ mbuild -setup
 mex -setup
 mcc -B sgl sss.m
 
+%Copy and paste strings to and from system clipboard
+clipboard('copy', data)
+str = clipboard('paste')
+
 %获取当前matlab打开的所有figure句柄
 h = get(0,'Children') 
   figure(h(1)); uimenufcn(gcf,'EditCopyFigure');
