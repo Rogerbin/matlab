@@ -1,7 +1,8 @@
 # matlab
 some code used in my study of data analysis
 
-Matlab2word
+##Matlab2word
+-------------
 ```matlab
 %%  word 处理部分
 wordflag = 1;
@@ -56,6 +57,79 @@ word.Quit();
 end
 % 移除文件夹目录
 rmpath(genpath('Platform'));% add by gbin
+```
+##Matlab2excel
+-------------
+```matlab
+% ----------------------读--------------------
+function excelreading
+%% 读excel
+try
+    x = actxGetRunningServer('excel.Application');  %启动excel引擎
+catch e
+    x= actxserver('excel.application');
+end;
+x.Visible=1; 
+for i =1
+% open xlsx file,or txt file 
+x.Workbooks.Open(filename);
+% select range ,A2:B5 for block choose
+Select(Range(x,sprintf('%s','GA2:GA1262')));
+datrange = get(x,'Selection');
+% get data from range selected,return cell format 
+dd = datrange.Value;
+% 
+data1 = cell2mat(dd);
+
+Select(Range(x,sprintf('%s','AHU2:AHU1262')));
+datrange = get(x,'Selection');
+dd = datrange.Value;
+data2 = cell2mat(dd);
+% close book but not excel
+x.ActiveWindow.Close;
+end
+x.Quit;
+clear x;
+```
+```matlab
+% ----------------------写----------------------
+function  excelwriting
+%% 写excel
+savename = 'test.xlsx';
+fileName = fullfile(pwd,savename);
+try
+    x = actxGetRunningServer('excel.Application');  %启动excel引擎
+catch e
+    x= actxserver('excel.application');
+end;
+x.Visible=1; 
+x.Workbooks.Add;% workbooks 包含多个sheets
+x.Workbooks.Item(1).SaveAs(fileName);
+%激活sheet1
+Activate(get(x.Sheets,'item','Sheet1'));%Activate(x.Sheets.Item('Sheet2'))
+% 设置要写入的范围并选择
+myRange = 'A3:A102';
+Select(Range(x,myRange));%
+
+% 在指定区域写入数值
+set(x.Selection,'Value',data);
+%选择/激活sheet的2种方法
+x.Sheets.Item('Sheet2').Select;
+x.Sheets(1).Select;%
+%选择range
+%  x.ActiveWindow.ActiveSheet.Range('B1:B11').Select
+% x.Sheets.Item('Sheet1').Range('A3:A44').Select;
+x.Range('A2:A34').Select;% 选择当前激活sheet的范围
+figure;plot(rand(100,1));
+uimenufcn(gcf,'EditCopyFigure');%复制图片放入粘贴板;
+x.ActiveWindow.Selection.PasteSpecial;% 粘贴入excel（图片或多行、列数据）
+%  x.Selection.PasteSpecial
+x.ActiveWorkbook.Save;% x.ActiveWorkbook.SaveAs('test2.xlsx')
+% 关闭workbook
+x.ActiveWorkbook.Close;
+% 关闭excel
+x.Quit;
+clear x;
 ```
 
 ---
