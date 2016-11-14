@@ -4,12 +4,15 @@ mex -setup
 mcc -B sgl sss.m
 
 %Copy and paste strings to and from system clipboard
-clipboard('copy', data)
+clipboard('copy', data) % 把字符串放入剪贴板，
 str = clipboard('paste')
 
 %获取当前matlab打开的所有figure句柄
 h = get(0,'Children') 
-  figure(h(1)); uimenufcn(gcf,'EditCopyFigure');
+  figure(h(1));
+  %两种方式把figure放入剪贴板
+1) uimenufcn(gcf,'EditCopyFigure');  
+2) hgexport(gcf,'-clipboard');
   %接着可以调用word的粘贴命令
  invoke(word.Selection, ‘Paste')
  %————————————————————————————————————————
