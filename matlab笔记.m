@@ -3,6 +3,16 @@ mbuild -setup
 mex -setup
 mcc -B sgl sss.m
 
+%   Example 1: Use onCleanup to close a file.
+%
+      function fileOpenSafely(fileName)
+          fid = fopen(fileName, 'w');
+          c = onCleanup(@()fclose(fid));
+
+          functionThatMayError(fid);
+      end   % c will execute fclose(fid) here
+
+
 %Copy and paste strings to and from system clipboard
 clipboard('copy', data) % 把字符串放入剪贴板，
 str = clipboard('paste')
