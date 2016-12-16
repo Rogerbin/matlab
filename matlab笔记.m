@@ -3,6 +3,12 @@ mbuild -setup
 mex -setup
 mcc -B sgl sss.m
 
+
+fieldnames(s) % returns a cell array of strings containing the names of the fields in structure s.
+names = 
+    'name'
+    'ID'
+
 %   Example 1: Use onCleanup to close a file.
 %
       function fileOpenSafely(fileName)
