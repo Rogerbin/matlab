@@ -3,7 +3,8 @@ mbuild -setup
 mex -setup
 mcc -B sgl sss.m
 
-
+%去掉cell中的empty元素
+scell(cellfun(@isempty,scell))= []; 
 %scell = {				scell = {
 %'1  2  3  4  5  6  7'				'1,2,3,4,5,6,7'
 %'1  2  3  4  5  6  7'   % 或者这种		     '1,2,3,4,5,6,7'
