@@ -4,7 +4,20 @@ mex -setup
 mcc -B sgl sss.m
 
 
-fieldnames(s) % returns a cell array of strings containing the names of the fields in structure s.
+%scell = {				scell = {
+%'1  2  3  4  5  6  7'				'1,2,3,4,5,6,7'
+%'1  2  3  4  5  6  7'   % 或者这种		     '1,2,3,4,5,6,7'
+%'1  2  3  4  5  6  7'}				'1,2,3,4,5,6,7'}
+%}
+% 将其中每一个'1,2,3,4,5,6,7'转换成矩阵直接使用evalx
+eval(['x=[',scell{1},'];'])
+% 整个scell统一处理
+data=[];% workspace 需要存在data变量
+arrayfun(@(k)eval(['data(k,:) = [',scell{k},'];']),1:length(scell));
+
+% returns a cell array of strings containing 
+% the names of the fields in structure s.
+fieldnames(s) 
 names = 
     'name'
     'ID'
