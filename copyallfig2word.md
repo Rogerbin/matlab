@@ -1,6 +1,11 @@
+[TOC]
+# code整理
+* 1.function
+* 2.function
 
+##1.function : abc
 
-### function ： copyallfig2word
+##2. function ： copyallfig2word
 ```matlab
 function [ output_args ] = copyallfig2word( savefilename,varargin )
 %COPYALLFIG2WORD 获取当前matlab下打开的所有figure,并保存在word中
@@ -73,3 +78,4 @@ end
 %clear word;
 end
 ```
+###3.function :
