@@ -1,3 +1,9 @@
+### cmd 命令
+```bat
+explorer /select,d:\test.exe  # 打开文件浏览器并选中test.exe
+explorer "http://www.baidu.com" #cmd窗口打开网址或html文件
+```
+
 # matlab
 some code used in my study of data analysis
 
