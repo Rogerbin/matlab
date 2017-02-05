@@ -32,3 +32,15 @@ function h = showmenu(hObject, eventdata, h)
 if isequal(get(h.fig,'menu'),'none')
     set(h.fig,'MenubBar','auto');
 end
+
+% -------------下面为GUI 笔记---------------
+FigColor=get(0,'DefaultUicontrolBackgroundColor');
+%使用结构体创建控件
+btn = 
+
+       style: 'pushbutton'
+      string: 'open'
+    position: [20 30 100 20]
+ uicontrol(hfig, btn)
+ 
+ %
