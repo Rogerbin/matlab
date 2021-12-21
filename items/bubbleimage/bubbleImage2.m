@@ -7,10 +7,6 @@ img = imresize(img, 0.2);
 [h,w,c] = size(img);
 % imshow(img);
 black = ones(h,w,c,'uint8')*255;
-%%%%%%%%%%%%只取图像中间圆形区域 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 imshow(black);
 statemap=zeros(h,w,'uint8'); %
 % randi([1555,11100],1,1)
@@ -81,8 +77,9 @@ while ( n<Npts || coverRatio>0.35)
        continue;
     end
      circles = [circles;[x,y, radius]];
+     colors = [colors;color];
      r = radius;
-    figure(1);
+%     figure(1);
 %     rectangle('Position',[x-r,y-r,r*2,r*2],'Curvature',[1,1],'FaceColor',
 %     color,'EdgeColor',[0,0,0]);
     rectangle('Position',[x-r,y-r,r*2,r*2],'Curvature',[1,1],'FaceColor',color,'EdgeColor',color);
@@ -101,6 +98,7 @@ while ( n<Npts || coverRatio>0.35)
         indxsel = sub2ind(size(statemap),posyin, posxin);
         statemap(indxsel) = 1;
 %         figure(2);imagesc(statemap);
+
     end
 %     disp(size(posy,1)/double(h*w));
     % change rand radius limit
@@ -115,3 +113,37 @@ while ( n<Npts || coverRatio>0.35)
 %         disp('changelim2');
     end
 end
+ figure(1);
+ %%%%%%%%%%%%只取图像中间圆形区域 
+white = ones(h,w,'uint8')*255;
+circ = [w/2, h/2];
+[posy, posx] =  find(white);
+fcircle = @(posx,posy)sqrt((posx-circ(1)).^2+((posy-circ(2))).^2);
+dist2center = arrayfun(fcircle, posx,posy);
+indxincircel = find(dist2center>min(w,h)/2);
+posyin = posy(indxincircel);
+posxin = posx(indxincircel);
+indxsel = sub2ind(size(white),posyin, posxin);
+white(indxsel) = 0;
+% figure(2); imshow(white);
+% 取3个通道对应的indx
+% sub2ind(size(img),indxsel,c);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(1);
+set(gca,'units','pixels','Visible','off')
+position = get(gca,"Position");
+im = getframe(gcf, position);
+im2 = frame2im(im);
+figure(3);imshow(im2)
+rr = im2(:,:,1);
+gg = im2(:,:,2);
+bb = im2(:,:,3);
+% draw circle
+rr(indxsel) = 255;
+gg(indxsel) = 255;
+bb(indxsel) = 255;
+im2(:,:,1)=rr;
+im2(:,:,2)=gg;
+im2(:,:,3)=bb;
+figure(3);imshow(im2)
